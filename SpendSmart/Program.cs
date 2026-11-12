@@ -8,14 +8,25 @@ namespace SpendSmart
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("SpendSmart") 
+                ?? throw new InvalidOperationException("Connection string 'SpendSmart' not found.");
+
+            //register the services for the application
+            builder.Services.AddControllersWithViews();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<SpendSmartDBContext>(options =>
-                options.UseSqlite("Data Source=SpendSmartDB.db")
+                options.UseSqlite(connectionString)
             );
+            
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<SpendSmartDBContext>();
+                dbContext.Database.Migrate();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

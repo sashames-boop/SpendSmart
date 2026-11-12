@@ -1,0 +1,22 @@
+# Git and Visual Studio files
+.git
+.vs
+**/*.user
+**/*.suo
+
+# Local build output
+**/bin
+**/obj
+
+# Local SQLite databses
+**/*.db
+**/*.db-*
+**/*.sqlite
+**/*.sqlite-*
+**/*.sqlite3
+**/*.sqlite3-*
+
+# Local env files
+**/.env
+**/.env.*
+

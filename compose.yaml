@@ -1,0 +1,16 @@
+name: spendsmart
+
+services:
+  web:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__SpendSmart: "Data Source=/app/data/SpendSmartDB.db"
+    ports:
+      - "${SPENDSMART_ADDRESS:-127.0.0.1}:${SPENDSMART_PORT:-8081}:8080"
+    volumes:
+      - spendsmart-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  spendsmart-data:
